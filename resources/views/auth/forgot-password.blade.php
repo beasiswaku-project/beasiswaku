@@ -17,7 +17,7 @@
 
                 <x-form.field name="email" type="email" label="Email" placeholder="nama@email.com" autocomplete="username" required autofocus />
 
-                <x-button>Kirim tautan</x-button>
+                <x-button class="w-full">Kirim tautan</x-button>
             </form>
 
             <p class="mt-8 text-center text-sm text-gray-600">

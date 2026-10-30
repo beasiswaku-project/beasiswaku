@@ -5,8 +5,9 @@
 
     /**
      * Menu items without a route are features that are not built yet.
+     * `active` is the route name pattern that highlights the item.
      *
-     * @var array<int, array{label: string, icon: string, route: string|null}> $menu
+     * @var array<int, array{label: string, icon: string, route: string|null, active?: string}> $menu
      */
     $menu = match ($user->role) {
         UserRole::Admin => [
@@ -15,7 +16,7 @@
             ['label' => 'Seleksi', 'icon' => 'clipboard-check', 'route' => null],
             ['label' => 'Pengguna', 'icon' => 'users', 'route' => null],
             ['label' => 'Laporan', 'icon' => 'file-text', 'route' => null],
-            ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => null],
+            ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => 'admin.kategori.index', 'active' => 'admin.kategori.*'],
         ],
         UserRole::Mahasiswa => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],
@@ -41,14 +42,15 @@
             @foreach ($menu as $item)
                 <li>
                     @if ($item['route'])
+                        @php($isActive = request()->routeIs($item['active'] ?? $item['route']))
                         <a
                             href="{{ route($item['route']) }}"
                             @class([
                                 'flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition',
-                                'bg-blue-500 text-white' => request()->routeIs($item['route']),
-                                'text-gray-700 hover:bg-gray-100' => ! request()->routeIs($item['route']),
+                                'bg-blue-500 text-white' => $isActive,
+                                'text-gray-700 hover:bg-gray-100' => ! $isActive,
                             ])
-                            @if (request()->routeIs($item['route'])) aria-current="page" @endif
+                            @if ($isActive) aria-current="page" @endif
                         >
                             <x-icon :name="$item['icon']" />
                             {{ $item['label'] }}

@@ -9,6 +9,8 @@ Route::redirect('/', '/login');
 Route::middleware(['auth', 'active'])->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
         Route::get('/dashboard', Admin\DashboardController::class)->name('dashboard');
+
+        Route::resource('kategori', Admin\KategoriController::class)->except(['create', 'edit']);
     });
 
     Route::middleware('role:mahasiswa')->group(function () {

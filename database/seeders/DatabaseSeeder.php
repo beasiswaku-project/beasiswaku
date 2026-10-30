@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database with development accounts.
+     * Seed the application's database with development data.
      */
     public function run(): void
     {
@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Nadia Putri',
             'email' => 'mahasiswa@beasiswaku.test',
         ]);
+
+        $this->call(KategoriSeeder::class);
     }
 }

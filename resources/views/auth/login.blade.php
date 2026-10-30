@@ -34,7 +34,7 @@
                     <a href="{{ route('password.request') }}" class="text-sm font-medium text-blue-500 hover:text-blue-600">Lupa kata sandi?</a>
                 </div>
 
-                <x-button>Masuk</x-button>
+                <x-button class="w-full">Masuk</x-button>
             </form>
 
             <p class="mt-8 text-center text-sm text-gray-600">

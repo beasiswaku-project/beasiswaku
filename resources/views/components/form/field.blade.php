@@ -20,11 +20,10 @@
             @unless ($isPassword) value="{{ old($name, $attributes->get('value')) }}" @endunless
             @error($name) aria-invalid="true" aria-describedby="{{ $id }}-error" @enderror
             {{ $attributes->except(['class', 'id', 'value'])->class([
-                'block w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition',
-                'focus:outline-none focus:ring-4',
+                'block w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition',
+                'focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none',
+                'aria-invalid:border-red-400 aria-invalid:focus:border-red-500 aria-invalid:focus:ring-red-100',
                 'pr-11' => $isPassword,
-                'border-gray-200 focus:border-blue-500 focus:ring-blue-100' => ! $errors->has($name),
-                'border-red-400 focus:border-red-500 focus:ring-red-100' => $errors->has($name),
             ]) }}
         >
 
@@ -42,7 +41,5 @@
         @endif
     </div>
 
-    @error($name)
-        <p id="{{ $id }}-error" class="mt-1.5 text-sm text-red-600">{{ $message }}</p>
-    @enderror
+    <x-form.error :name="$name" :id="$id" />
 </div>
