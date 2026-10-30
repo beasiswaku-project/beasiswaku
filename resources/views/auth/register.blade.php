@@ -26,7 +26,7 @@
                 @enderror
             </div>
 
-            <x-button class="mt-8">Buat akun</x-button>
+            <x-button class="mt-8 w-full">Buat akun</x-button>
         </form>
 
         <p class="mt-6 text-center text-sm text-gray-600">

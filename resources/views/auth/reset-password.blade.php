@@ -17,7 +17,7 @@
                 <x-form.field name="password" type="password" label="Kata sandi baru" autocomplete="new-password" required autofocus />
                 <x-form.field name="password_confirmation" type="password" label="Konfirmasi kata sandi" autocomplete="new-password" required />
 
-                <x-button>Simpan kata sandi</x-button>
+                <x-button class="w-full">Simpan kata sandi</x-button>
             </form>
         </div>
     </section>

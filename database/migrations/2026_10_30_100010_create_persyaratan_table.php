@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('persyaratan', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('program_id')->constrained('program')->cascadeOnDelete();
+            $table->enum('jenis', ['ipk_minimum', 'penghasilan_maksimum', 'semester_minimum', 'kipk', 'dtsen', 'wilayah_3t', 'dokumen']);
+            $table->string('nilai', 100)->nullable();
+            $table->boolean('wajib')->default(true);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('persyaratan');
+    }
+};
