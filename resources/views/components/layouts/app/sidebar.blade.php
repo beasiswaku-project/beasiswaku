@@ -16,7 +16,7 @@
             ['label' => 'Seleksi', 'icon' => 'clipboard-check', 'route' => null],
             ['label' => 'Pengguna', 'icon' => 'users', 'route' => null],
             ['label' => 'Laporan', 'icon' => 'file-text', 'route' => null],
-            ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => 'admin.kategori.index', 'active' => ['admin.kategori.*', 'admin.jenjang.*']],
+            ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => 'admin.kategori.index', 'active' => ['admin.kategori.*', 'admin.jenjang.*', 'admin.wilayah.*']],
         ],
         UserRole::Mahasiswa => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],

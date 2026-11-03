@@ -19,9 +19,20 @@ class WilayahFactory extends Factory
     {
         return [
             'provinsi' => fake()->state(),
-            'kabupaten' => fake()->city(),
+            'kabupaten' => 'Kabupaten '.fake()->unique()->city(),
             'is_3t' => false,
-            'skor_prioritas' => fake()->numberBetween(0, 100),
+            'skor_prioritas' => Wilayah::DEFAULT_SKOR_NON_3T,
         ];
+    }
+
+    /**
+     * Indicate that the region is a 3T (tertinggal, terdepan, terluar) regency.
+     */
+    public function tertinggal(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_3t' => true,
+            'skor_prioritas' => Wilayah::DEFAULT_SKOR_3T,
+        ]);
     }
 }
