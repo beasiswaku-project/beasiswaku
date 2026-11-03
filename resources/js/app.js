@@ -25,7 +25,7 @@ document.addEventListener('click', (event) => {
  *
  * Markup: a trigger with `data-dialog-target="<dialog id>"` and optionally
  * `data-dialog-title`, `data-action`, `data-method` and `data-fields` (JSON
- * object mapping input names to values).
+ * object mapping input names to values; checkboxes are checked when truthy).
  */
 document.addEventListener('click', (event) => {
     const trigger = event.target.closest('[data-dialog-target]');
@@ -53,7 +53,9 @@ document.addEventListener('click', (event) => {
         const fields = JSON.parse(trigger.dataset.fields ?? '{}');
         Object.entries(fields).forEach(([name, value]) => {
             const input = form.elements.namedItem(name);
-            if (input) {
+            if (input?.type === 'checkbox') {
+                input.checked = Boolean(value);
+            } else if (input) {
                 input.value = value ?? '';
             }
         });

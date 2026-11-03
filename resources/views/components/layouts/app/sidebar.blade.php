@@ -7,7 +7,7 @@
      * Menu items without a route are features that are not built yet.
      * `active` is the route name pattern that highlights the item.
      *
-     * @var array<int, array{label: string, icon: string, route: string|null, active?: string}> $menu
+     * @var array<int, array{label: string, icon: string, route: string|null, active?: string|array<int, string>}> $menu
      */
     $menu = match ($user->role) {
         UserRole::Admin => [
@@ -16,7 +16,7 @@
             ['label' => 'Seleksi', 'icon' => 'clipboard-check', 'route' => null],
             ['label' => 'Pengguna', 'icon' => 'users', 'route' => null],
             ['label' => 'Laporan', 'icon' => 'file-text', 'route' => null],
-            ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => 'admin.kategori.index', 'active' => 'admin.kategori.*'],
+            ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => 'admin.kategori.index', 'active' => ['admin.kategori.*', 'admin.jenjang.*', 'admin.wilayah.*']],
         ],
         UserRole::Mahasiswa => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],
