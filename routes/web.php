@@ -11,6 +11,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('/dashboard', Admin\DashboardController::class)->name('dashboard');
 
         Route::resource('kategori', Admin\KategoriController::class)->except(['create', 'edit']);
+        Route::resource('jenjang', Admin\JenjangController::class)->except(['create', 'edit']);
     });
 
     Route::middleware('role:mahasiswa')->group(function () {

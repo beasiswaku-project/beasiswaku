@@ -6,7 +6,7 @@
      */
     $tabs = [
         ['label' => 'Kategori beasiswa', 'route' => 'admin.kategori.index', 'active' => 'admin.kategori.*'],
-        ['label' => 'Jenjang pendidikan', 'route' => null],
+        ['label' => 'Jenjang pendidikan', 'route' => 'admin.jenjang.index', 'active' => 'admin.jenjang.*'],
         ['label' => 'Wilayah', 'route' => null],
         ['label' => 'Prioritas 3T', 'route' => null],
     ];

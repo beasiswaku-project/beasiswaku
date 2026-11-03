@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'mahasiswa@beasiswaku.test',
         ]);
 
-        $this->call(KategoriSeeder::class);
+        $this->call([KategoriSeeder::class, JenjangSeeder::class]);
     }
 }
