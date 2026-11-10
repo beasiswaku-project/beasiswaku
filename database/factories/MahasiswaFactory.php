@@ -33,4 +33,25 @@ class MahasiswaFactory extends Factory
             'kondisi_khusus' => null,
         ];
     }
+
+    /**
+     * Indicate that the student receives KIP Kuliah.
+     */
+    public function penerimaKipk(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'punya_kipk' => true,
+        ]);
+    }
+
+    /**
+     * Indicate that the student is registered in DTSEN at the given decile.
+     */
+    public function terdaftarDtsen(int $desil = 2): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'terdaftar_dtsen' => true,
+            'desil_dtsen' => $desil,
+        ]);
+    }
 }

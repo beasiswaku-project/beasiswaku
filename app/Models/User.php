@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -47,6 +48,16 @@ class User extends Authenticatable
             'role' => UserRole::class,
             'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * The student profile owned by this account, if it has been filled in.
+     *
+     * @return HasOne<Mahasiswa, $this>
+     */
+    public function mahasiswa(): HasOne
+    {
+        return $this->hasOne(Mahasiswa::class);
     }
 
     public function hasRole(UserRole ...$roles): bool
