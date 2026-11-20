@@ -19,7 +19,7 @@ class ProfilController extends Controller
         $status = $request->string('status')->toString();
 
         $profil = Mahasiswa::query()
-            ->with(['user', 'wilayah', 'jenjang'])
+            ->with(['user', 'wilayah', 'jenjang', 'riwayatPendidikan'])
             ->search($search)
             ->statusAkun($status)
             ->latest('id')
@@ -38,7 +38,7 @@ class ProfilController extends Controller
      */
     public function show(Mahasiswa $profil): View
     {
-        $profil->load(['user', 'wilayah', 'jenjang']);
+        $profil->load(['user', 'wilayah', 'jenjang', 'riwayatPendidikan']);
 
         return view('admin.profil.show', ['profil' => $profil]);
     }

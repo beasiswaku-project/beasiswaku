@@ -19,7 +19,7 @@ class ProfilController extends Controller
      */
     public function show(Request $request): View
     {
-        $profil = $request->user()->mahasiswa()->with(['wilayah', 'jenjang'])->first();
+        $profil = $request->user()->mahasiswa()->with(['wilayah', 'jenjang', 'riwayatPendidikan'])->first();
 
         return view('mahasiswa.profil.show', [
             'user' => $request->user(),

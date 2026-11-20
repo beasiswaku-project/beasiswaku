@@ -45,6 +45,10 @@
                 <dd class="mt-1 font-medium">{{ $profil->jenjang->nama_jenjang }}</dd>
             </div>
             <div>
+                <dt class="text-sm text-gray-500">IPK terakhir</dt>
+                <dd class="mt-1 font-medium tabular-nums">{{ $profil->ipkTerakhir() === null ? '–' : number_format($profil->ipkTerakhir(), 2, ',', '.') }}</dd>
+            </div>
+            <div>
                 <dt class="text-sm text-gray-500">Wilayah asal</dt>
                 <dd class="mt-1 flex flex-wrap items-center gap-2 font-medium">
                     {{ $profil->wilayah->kabupaten }}, {{ $profil->wilayah->provinsi }}

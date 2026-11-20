@@ -25,6 +25,10 @@ Route::middleware(['auth', 'active'])->group(function () {
             Route::get('/profil', [Mahasiswa\ProfilController::class, 'show'])->name('profil.show');
             Route::post('/profil', [Mahasiswa\ProfilController::class, 'store'])->name('profil.store');
             Route::put('/profil', [Mahasiswa\ProfilController::class, 'update'])->name('profil.update');
+
+            Route::resource('riwayat-pendidikan', Mahasiswa\RiwayatPendidikanController::class)
+                ->only(['index', 'store', 'update', 'destroy'])
+                ->parameters(['riwayat-pendidikan' => 'riwayatPendidikan']);
         });
     });
 });

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * A student's academic and economic profile, used for scholarship matching
@@ -74,6 +75,28 @@ class Mahasiswa extends Model
     }
 
     /**
+     * GPA entries per semester, newest semester first.
+     *
+     * @return HasMany<RiwayatPendidikan, $this>
+     */
+    public function riwayatPendidikan(): HasMany
+    {
+        return $this->hasMany(RiwayatPendidikan::class)->orderByDesc('semester')->orderByDesc('id');
+    }
+
+    /**
+     * The most recent GPA: the latest semester at the student's current level,
+     * falling back to the latest semester at any level.
+     */
+    public function ipkTerakhir(): ?float
+    {
+        $riwayat = $this->riwayatPendidikan->firstWhere('jenjang_id', $this->jenjang_id)
+            ?? $this->riwayatPendidikan->first();
+
+        return $riwayat?->ipk === null ? null : (float) $riwayat->ipk;
+    }
+
+    /**
      * Checklist behind the profile completeness indicator, keyed by item label.
      *
      * @return array<string, bool>
@@ -85,6 +108,7 @@ class Mahasiswa extends Model
             'Wilayah asal' => filled($this->wilayah_id),
             'Data ekonomi keluarga' => $this->penghasilan_ortu !== null && $this->jml_tanggungan >= 1,
             'Status DTSEN' => ! $this->terdaftar_dtsen || filled($this->desil_dtsen),
+            'Riwayat IPK' => $this->ipkTerakhir() !== null,
         ];
     }
 

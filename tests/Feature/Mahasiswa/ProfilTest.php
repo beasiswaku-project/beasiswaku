@@ -4,6 +4,7 @@ namespace Tests\Feature\Mahasiswa;
 
 use App\Models\Jenjang;
 use App\Models\Mahasiswa;
+use App\Models\RiwayatPendidikan;
 use App\Models\User;
 use App\Models\Wilayah;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -141,7 +142,8 @@ class ProfilTest extends TestCase
 
     public function test_profile_page_shows_completeness_indicator(): void
     {
-        Mahasiswa::factory()->for($this->user)->create(['kampus' => 'Universitas Telkom']);
+        $profil = Mahasiswa::factory()->for($this->user)->create(['kampus' => 'Universitas Telkom']);
+        RiwayatPendidikan::factory()->for($profil)->create(['jenjang_id' => $profil->jenjang_id]);
 
         $this->actingAs($this->user)
             ->get(route('mahasiswa.profil.show'))
@@ -156,7 +158,7 @@ class ProfilTest extends TestCase
         $profil = Mahasiswa::factory()->make(['terdaftar_dtsen' => true, 'desil_dtsen' => null]);
 
         $this->assertFalse($profil->isLengkap());
-        $this->assertSame(75, $profil->persentaseKelengkapan());
+        $this->assertSame(60, $profil->persentaseKelengkapan());
     }
 
     public function test_admin_cannot_access_student_profile_form(): void
