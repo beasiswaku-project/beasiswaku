@@ -29,4 +29,38 @@
             <dd class="mt-1 font-semibold">{{ $program->penyedia->kontak ?? '–' }}</dd>
         </div>
     </dl>
+
+    <section class="mt-6 rounded-xl border border-gray-200 bg-white p-5" aria-labelledby="persyaratan-title">
+        <h2 id="persyaratan-title" class="font-semibold">Persyaratan</h2>
+
+        @if ($program->persyaratan->isEmpty())
+            <p class="mt-2 text-sm text-gray-500">Program ini terbuka umum tanpa syarat khusus.</p>
+        @else
+            <ul class="mt-4 space-y-3 text-sm">
+                @foreach ($program->persyaratan as $persyaratan)
+                    <li class="flex items-start gap-3">
+                        @if ($persyaratan->jenis->isDokumen() || ! $profil)
+                            <x-icon name="file-text" class="size-4 text-gray-400" />
+                        @elseif ($persyaratan->isTerpenuhiOleh($profil))
+                            <x-icon name="check" class="size-4 text-green-600" />
+                        @else
+                            <x-icon name="x" class="size-4 text-red-500" />
+                        @endif
+
+                        <span>
+                            {{ $persyaratan->deskripsi() }}
+                            <span class="text-gray-500">({{ $persyaratan->wajib ? 'wajib' : 'preferensi' }})</span>
+                            @if ($profil && ! $persyaratan->jenis->isDokumen())
+                                <span class="sr-only">{{ $persyaratan->isTerpenuhiOleh($profil) ? 'terpenuhi' : 'belum terpenuhi' }}</span>
+                            @endif
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
+
+            @if ($profil)
+                <p class="mt-4 text-sm text-gray-500">Tanda centang dihitung dari profilmu saat ini. Syarat dokumen dipenuhi dengan mengunggah berkas saat mendaftar.</p>
+            @endif
+        @endif
+    </section>
 </x-layouts.app>

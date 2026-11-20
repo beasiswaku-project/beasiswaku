@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\JenisPersyaratan;
 use App\Enums\StatusProgram;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProgramRequest;
@@ -60,11 +61,11 @@ class ProgramController extends Controller
      */
     public function show(Program $program): View
     {
-        $program->load(['penyedia', 'kategori', 'jenjang', 'konfigurasi'])->loadCount('pendaftaran');
+        $program->load(['penyedia', 'kategori', 'jenjang', 'konfigurasi', 'persyaratan'])->loadCount('pendaftaran');
 
         return view('admin.program.show', [
             'program' => $program,
-            'daftarStatus' => StatusProgram::cases(),
+            'daftarJenisPersyaratan' => JenisPersyaratan::cases(),
             ...$this->pilihan(),
         ]);
     }

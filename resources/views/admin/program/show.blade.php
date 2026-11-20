@@ -66,6 +66,8 @@
         </form>
     </section>
 
+    <x-program.persyaratan :program="$program" :daftar-jenis="$daftarJenisPersyaratan" class="mt-6" />
+
     <x-modal id="program-dialog" title="Ubah program" :data-open-on-load="$errors->hasAny(['judul', 'penyedia_id', 'kategori_id', 'jenjang_id', 'kuota', 'tgl_buka', 'deadline'])">
         <form method="POST" action="{{ route('admin.program.update', $program) }}" class="space-y-5 px-6 py-5" novalidate>
             @csrf

@@ -21,7 +21,7 @@
         UserRole::Mahasiswa => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],
             ['label' => 'Profil', 'icon' => 'user', 'route' => 'mahasiswa.profil.show', 'active' => ['mahasiswa.profil.*', 'mahasiswa.riwayat-pendidikan.*', 'mahasiswa.prestasi.*']],
-            ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => 'beasiswa.index', 'active' => 'beasiswa.*'],
+            ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => 'beasiswa.index', 'active' => ['beasiswa.*', 'mahasiswa.pencocokan']],
             ['label' => 'Pendaftaran', 'icon' => 'clipboard-check', 'route' => null],
         ],
     };

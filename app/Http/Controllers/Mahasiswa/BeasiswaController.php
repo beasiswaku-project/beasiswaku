@@ -38,14 +38,18 @@ class BeasiswaController extends Controller
     }
 
     /**
-     * Display an open program. Drafts and closed programs are not visible to students.
+     * Display an open program with its requirements, marking which ones the
+     * student's current profile meets. Drafts and closed programs are hidden.
      */
-    public function show(Program $program): View
+    public function show(Request $request, Program $program): View
     {
         abort_unless($program->isTerbuka(), 404);
 
-        $program->load(['penyedia', 'kategori', 'jenjang']);
+        $program->load(['penyedia', 'kategori', 'jenjang', 'persyaratan']);
 
-        return view('mahasiswa.beasiswa.show', ['program' => $program]);
+        return view('mahasiswa.beasiswa.show', [
+            'program' => $program,
+            'profil' => $request->user()->mahasiswa?->load(['wilayah', 'riwayatPendidikan']),
+        ]);
     }
 }

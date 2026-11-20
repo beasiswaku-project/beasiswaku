@@ -21,6 +21,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::resource('penyedia', Admin\PenyediaController::class)->except(['create', 'edit'])->parameters(['penyedia' => 'penyedia']);
         Route::resource('program', Admin\ProgramController::class)->except(['create', 'edit']);
         Route::patch('/program/{program}/status', [Admin\ProgramController::class, 'status'])->name('program.status');
+        Route::resource('program.persyaratan', Admin\PersyaratanController::class)->shallow()->only(['store', 'update', 'destroy']);
     });
 
     Route::middleware('role:mahasiswa')->group(function () {
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'active'])->group(function () {
             Route::get('/profil', [Mahasiswa\ProfilController::class, 'show'])->name('profil.show');
             Route::post('/profil', [Mahasiswa\ProfilController::class, 'store'])->name('profil.store');
             Route::put('/profil', [Mahasiswa\ProfilController::class, 'update'])->name('profil.update');
+            Route::get('/pencocokan', Mahasiswa\PencocokanController::class)->name('pencocokan');
 
             Route::resource('riwayat-pendidikan', Mahasiswa\RiwayatPendidikanController::class)
                 ->only(['index', 'store', 'update', 'destroy'])

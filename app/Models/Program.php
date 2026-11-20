@@ -81,6 +81,47 @@ class Program extends Model
     }
 
     /**
+     * Requirements, mandatory ones first.
+     *
+     * @return HasMany<Persyaratan, $this>
+     */
+    public function persyaratan(): HasMany
+    {
+        return $this->hasMany(Persyaratan::class)->orderByDesc('wajib')->orderBy('id');
+    }
+
+    /**
+     * Match the student's current profile against this program's requirements
+     * (proposal subbab 4.6.3). Document requirements are left out. The program
+     * qualifies only when every mandatory requirement is met; the percentage is
+     * the share of met non-document requirements, or null when there are none
+     * ("terbuka umum").
+     *
+     * @return array{memenuhi: bool, persentase: int|null, terpenuhi: int, total: int}
+     */
+    public function hasilPencocokan(Mahasiswa $mahasiswa): array
+    {
+        $syarat = $this->persyaratan->reject(fn (Persyaratan $persyaratan): bool => $persyaratan->jenis->isDokumen());
+        [$terpenuhi, $tidakTerpenuhi] = $syarat->partition(fn (Persyaratan $persyaratan): bool => $persyaratan->isTerpenuhiOleh($mahasiswa));
+
+        return [
+            'memenuhi' => $this->jenjang_id === $mahasiswa->jenjang_id
+                && $tidakTerpenuhi->doesntContain(fn (Persyaratan $persyaratan): bool => $persyaratan->wajib),
+            'persentase' => $syarat->isEmpty() ? null : (int) round($terpenuhi->count() / $syarat->count() * 100),
+            'terpenuhi' => $terpenuhi->count(),
+            'total' => $syarat->count(),
+        ];
+    }
+
+    /**
+     * Whether requirements may still change: only before anyone registers.
+     */
+    public function isPersyaratanTerkunci(): bool
+    {
+        return $this->pendaftaran()->exists();
+    }
+
+    /**
      * @return HasMany<Pendaftaran, $this>
      */
     public function pendaftaran(): HasMany

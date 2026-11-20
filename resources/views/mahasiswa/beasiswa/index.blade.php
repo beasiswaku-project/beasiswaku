@@ -4,7 +4,9 @@
     <h1 class="text-3xl font-semibold tracking-tight">Katalog beasiswa</h1>
     <p class="mt-2 text-gray-500">Semua program beasiswa yang sedang dibuka.</p>
 
-    <form method="GET" action="{{ route('beasiswa.index') }}" role="search" class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+    <x-beasiswa.katalog-tabs class="mt-8" />
+
+    <form method="GET" action="{{ route('beasiswa.index') }}" role="search" class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <div class="relative w-full sm:max-w-xs">
             <label for="q" class="sr-only">Cari beasiswa</label>
             <x-icon name="search" class="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-gray-400" />
