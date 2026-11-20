@@ -15,6 +15,22 @@
 
     <x-flash class="mt-6" />
 
+    <div class="mt-6">
+        @if ($pendaftaranSaya)
+            <a href="{{ route('mahasiswa.pendaftaran.show', $pendaftaranSaya) }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold transition hover:bg-gray-50">
+                Lihat pendaftaranku
+                <x-icon name="arrow-right" class="size-4" />
+            </a>
+        @else
+            <form method="POST" action="{{ route('mahasiswa.pendaftaran.store') }}">
+                @csrf
+                <input type="hidden" name="program_id" value="{{ $program->id }}">
+                <x-button>Daftar beasiswa ini</x-button>
+            </form>
+            <x-form.error name="program_id" id="daftar" />
+        @endif
+    </div>
+
     <dl class="mt-8 grid gap-4 sm:grid-cols-3">
         <div class="rounded-xl border border-gray-200 bg-white p-5">
             <dt class="text-sm text-gray-500">Periode pendaftaran</dt>

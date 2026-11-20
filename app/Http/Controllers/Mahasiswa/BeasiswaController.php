@@ -47,9 +47,12 @@ class BeasiswaController extends Controller
 
         $program->load(['penyedia', 'kategori', 'jenjang', 'persyaratan']);
 
+        $profil = $request->user()->mahasiswa?->load(['wilayah', 'riwayatPendidikan']);
+
         return view('mahasiswa.beasiswa.show', [
             'program' => $program,
-            'profil' => $request->user()->mahasiswa?->load(['wilayah', 'riwayatPendidikan']),
+            'profil' => $profil,
+            'pendaftaranSaya' => $profil?->pendaftaran()->where('program_id', $program->id)->first(),
         ]);
     }
 }

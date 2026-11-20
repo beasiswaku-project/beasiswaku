@@ -85,6 +85,16 @@ class Mahasiswa extends Model
     }
 
     /**
+     * Scholarship registrations, newest first.
+     *
+     * @return HasMany<Pendaftaran, $this>
+     */
+    public function pendaftaran(): HasMany
+    {
+        return $this->hasMany(Pendaftaran::class)->orderByDesc('id');
+    }
+
+    /**
      * Achievements and organisation memberships.
      *
      * @return HasMany<Prestasi, $this>

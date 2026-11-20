@@ -22,6 +22,10 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::resource('program', Admin\ProgramController::class)->except(['create', 'edit']);
         Route::patch('/program/{program}/status', [Admin\ProgramController::class, 'status'])->name('program.status');
         Route::resource('program.persyaratan', Admin\PersyaratanController::class)->shallow()->only(['store', 'update', 'destroy']);
+
+        Route::resource('pendaftaran', Admin\PendaftaranController::class)->only(['index', 'show']);
+        Route::get('/pendaftaran/{pendaftaran}/prestasi', [Admin\PendaftaranController::class, 'prestasi'])->name('pendaftaran.prestasi');
+        Route::patch('/pendaftaran/{pendaftaran}/status', [Admin\PendaftaranController::class, 'status'])->name('pendaftaran.status');
     });
 
     Route::middleware('role:mahasiswa')->group(function () {
@@ -41,6 +45,9 @@ Route::middleware(['auth', 'active'])->group(function () {
                 ->parameters(['riwayat-pendidikan' => 'riwayatPendidikan']);
 
             Route::resource('prestasi', Mahasiswa\PrestasiController::class)->only(['index', 'store', 'update', 'destroy']);
+
+            Route::resource('pendaftaran', Mahasiswa\PendaftaranController::class)->only(['index', 'store', 'show', 'destroy']);
+            Route::post('/pendaftaran/{pendaftaran}/kirim', [Mahasiswa\PendaftaranController::class, 'kirim'])->name('pendaftaran.kirim');
         });
     });
 
