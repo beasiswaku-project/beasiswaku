@@ -21,6 +21,28 @@ class KonfigurasiPenilaian extends Model
     public const UPDATED_AT = null;
 
     /**
+     * Final score weights from the proposal (subbab 4.6.2), used for the first version.
+     *
+     * @var array<string, float>
+     */
+    public const array BOBOT_AWAL = [
+        'ekonomi' => 0.40,
+        'ipk' => 0.20,
+        'prestasi' => 0.15,
+        'esai' => 0.10,
+        'wawancara' => 0.15,
+    ];
+
+    /**
+     * Thresholds from the proposal (subbab 4.6.1), used for the first version.
+     *
+     * @var array<string, int>
+     */
+    public const array AMBANG_AWAL = [
+        'desil_dtsen_maksimum' => 4,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -39,5 +61,20 @@ class KonfigurasiPenilaian extends Model
     public function pembuat(): BelongsTo
     {
         return $this->belongsTo(User::class, 'dibuat_oleh');
+    }
+
+    /**
+     * The newest configuration version, creating version 1 with the proposal's
+     * defaults when none exists yet. New programs are linked to this version.
+     */
+    public static function versiTerbaru(User $pembuat): self
+    {
+        return static::query()->orderByDesc('versi')->first()
+            ?? static::query()->forceCreate([
+                'versi' => 1,
+                'bobot' => self::BOBOT_AWAL,
+                'ambang' => self::AMBANG_AWAL,
+                'dibuat_oleh' => $pembuat->id,
+            ]);
     }
 }

@@ -5,6 +5,7 @@
      * @var array<int, array{label: string, route: string, active: string}> $tabs
      */
     $tabs = [
+        ['label' => 'Program', 'route' => 'admin.program.index', 'active' => 'admin.program.*'],
         ['label' => 'Penyedia', 'route' => 'admin.penyedia.index', 'active' => 'admin.penyedia.*'],
     ];
 @endphp

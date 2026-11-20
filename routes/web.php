@@ -19,10 +19,15 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::patch('/profil/{profil}/nonaktif', [Admin\ProfilController::class, 'nonaktif'])->name('profil.nonaktif');
 
         Route::resource('penyedia', Admin\PenyediaController::class)->except(['create', 'edit'])->parameters(['penyedia' => 'penyedia']);
+        Route::resource('program', Admin\ProgramController::class)->except(['create', 'edit']);
+        Route::patch('/program/{program}/status', [Admin\ProgramController::class, 'status'])->name('program.status');
     });
 
     Route::middleware('role:mahasiswa')->group(function () {
         Route::get('/dashboard', Mahasiswa\DashboardController::class)->name('mahasiswa.dashboard');
+
+        Route::get('/beasiswa', [Mahasiswa\BeasiswaController::class, 'index'])->name('beasiswa.index');
+        Route::get('/beasiswa/{program}', [Mahasiswa\BeasiswaController::class, 'show'])->name('beasiswa.show');
 
         Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
             Route::get('/profil', [Mahasiswa\ProfilController::class, 'show'])->name('profil.show');
