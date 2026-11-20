@@ -30,6 +30,8 @@
 
     <x-flash class="mt-6" />
 
+    <x-dokumen.unggah-mahasiswa :pendaftaran="$pendaftaran" class="mt-6" />
+
     @if ($pendaftaran->isDraft())
         <section class="mt-6 rounded-xl border border-gray-200 bg-white p-6" aria-labelledby="kirim-title">
             <h2 id="kirim-title" class="font-semibold">Kirim pendaftaran</h2>

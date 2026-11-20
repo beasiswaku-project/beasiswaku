@@ -4,6 +4,7 @@ namespace Tests\Feature\Mahasiswa;
 
 use App\Enums\JenisPersyaratan;
 use App\Enums\StatusPendaftaran;
+use App\Models\Dokumen;
 use App\Models\Mahasiswa;
 use App\Models\Pendaftaran;
 use App\Models\Persyaratan;
@@ -34,6 +35,17 @@ class PendaftaranTest extends TestCase
         ]);
         RiwayatPendidikan::factory()->for($this->profil)->create(['jenjang_id' => $this->profil->jenjang_id, 'semester' => 3, 'ipk' => 3.40]);
         $this->program = Program::factory()->dibuka()->create(['jenjang_id' => $this->profil->jenjang_id]);
+    }
+
+    /**
+     * A draft with the KIP-K proof the student's declared status requires.
+     */
+    private function drafSiapKirim(): Pendaftaran
+    {
+        $pendaftaran = Pendaftaran::factory()->for($this->profil)->for($this->program)->create();
+        Dokumen::factory()->for($pendaftaran)->create(['jenis_dokumen' => Dokumen::BUKTI_KIPK]);
+
+        return $pendaftaran;
     }
 
     public function test_student_can_start_a_draft_registration(): void
@@ -94,7 +106,7 @@ class PendaftaranTest extends TestCase
 
     public function test_submitting_saves_a_snapshot_of_economic_data_and_gpa(): void
     {
-        $pendaftaran = Pendaftaran::factory()->for($this->profil)->for($this->program)->create();
+        $pendaftaran = $this->drafSiapKirim();
 
         $this->actingAs($this->user)
             ->post(route('mahasiswa.pendaftaran.kirim', $pendaftaran))
@@ -112,7 +124,7 @@ class PendaftaranTest extends TestCase
 
     public function test_later_profile_changes_do_not_alter_the_snapshot(): void
     {
-        $pendaftaran = Pendaftaran::factory()->for($this->profil)->for($this->program)->create();
+        $pendaftaran = $this->drafSiapKirim();
         $this->actingAs($this->user)->post(route('mahasiswa.pendaftaran.kirim', $pendaftaran));
 
         $this->profil->update(['penghasilan_ortu' => 9_000_000]);

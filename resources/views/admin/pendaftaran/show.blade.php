@@ -23,6 +23,8 @@
 
     <x-pendaftaran.snapshot :pendaftaran="$pendaftaran" class="mt-6" />
 
+    <x-dokumen.verifikasi-admin :pendaftaran="$pendaftaran" :daftar-status="$daftarStatusVerifikasi" class="mt-6" />
+
     <section class="mt-6 rounded-xl border border-gray-200 bg-white p-5" aria-labelledby="status-title">
         <h2 id="status-title" class="font-semibold">Status pendaftaran</h2>
 

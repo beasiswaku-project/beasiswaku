@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\DokumenUnduhController;
 use App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\PrestasiBuktiController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::resource('pendaftaran', Admin\PendaftaranController::class)->only(['index', 'show']);
         Route::get('/pendaftaran/{pendaftaran}/prestasi', [Admin\PendaftaranController::class, 'prestasi'])->name('pendaftaran.prestasi');
         Route::patch('/pendaftaran/{pendaftaran}/status', [Admin\PendaftaranController::class, 'status'])->name('pendaftaran.status');
+        Route::patch('/dokumen/{dokumen}/verifikasi', [Admin\DokumenController::class, 'verifikasi'])->name('dokumen.verifikasi');
     });
 
     Route::middleware('role:mahasiswa')->group(function () {
@@ -48,10 +50,12 @@ Route::middleware(['auth', 'active'])->group(function () {
 
             Route::resource('pendaftaran', Mahasiswa\PendaftaranController::class)->only(['index', 'store', 'show', 'destroy']);
             Route::post('/pendaftaran/{pendaftaran}/kirim', [Mahasiswa\PendaftaranController::class, 'kirim'])->name('pendaftaran.kirim');
+            Route::resource('pendaftaran.dokumen', Mahasiswa\DokumenController::class)->shallow()->only(['store', 'update', 'destroy'])->parameters(['dokumen' => 'dokumen']);
         });
     });
 
     Route::get('/prestasi/{prestasi}/bukti', PrestasiBuktiController::class)->name('prestasi.bukti');
+    Route::get('/dokumen/{dokumen}/unduh', DokumenUnduhController::class)->name('dokumen.unduh');
 });
 
 require __DIR__.'/auth.php';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\StatusPendaftaran;
+use App\Enums\StatusVerifikasi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StatusPendaftaranRequest;
 use App\Models\Pendaftaran;
@@ -46,11 +47,12 @@ class PendaftaranController extends Controller
     {
         abort_if($pendaftaran->isDraft(), 404);
 
-        $pendaftaran->load(['mahasiswa.user', 'program.penyedia']);
+        $pendaftaran->load(['mahasiswa.user', 'program.penyedia', 'dokumen']);
 
         return view('admin.pendaftaran.show', [
             'pendaftaran' => $pendaftaran,
             'daftarStatus' => StatusPendaftaran::untukAdmin(),
+            'daftarStatusVerifikasi' => StatusVerifikasi::cases(),
         ]);
     }
 

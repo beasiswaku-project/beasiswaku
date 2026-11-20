@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * A student's registration for a program. Every column is set by the system
@@ -63,6 +64,59 @@ class Pendaftaran extends Model
         return $this->belongsTo(Program::class);
     }
 
+    /**
+     * Uploaded documents, mandatory ones first.
+     *
+     * @return HasMany<Dokumen, $this>
+     */
+    public function dokumen(): HasMany
+    {
+        return $this->hasMany(Dokumen::class)->orderBy('opsional')->orderBy('id');
+    }
+
+    /**
+     * Names of the documents that must be uploaded: the program's document
+     * requirements plus proof of every assistance status the student declared.
+     *
+     * @return list<string>
+     */
+    public function dokumenWajib(): array
+    {
+        $dokumen = $this->program->persyaratan
+            ->filter(fn (Persyaratan $persyaratan): bool => $persyaratan->jenis->isDokumen())
+            ->pluck('nilai')
+            ->all();
+
+        if ($this->mahasiswa->punya_kipk) {
+            $dokumen[] = Dokumen::BUKTI_KIPK;
+        }
+
+        if ($this->mahasiswa->terdaftar_dtsen) {
+            $dokumen[] = Dokumen::BUKTI_DTSEN;
+        }
+
+        return array_values(array_unique($dokumen));
+    }
+
+    /**
+     * Mandatory documents that have not been uploaded yet.
+     *
+     * @return list<string>
+     */
+    public function dokumenWajibBelumDiunggah(): array
+    {
+        return array_values(array_diff($this->dokumenWajib(), $this->dokumen->pluck('jenis_dokumen')->all()));
+    }
+
+    /**
+     * Documents can be uploaded or replaced until the administrative check ends,
+     * so a student can fix a rejected proof after submitting.
+     */
+    public function isMenerimaDokumen(): bool
+    {
+        return in_array($this->status, [StatusPendaftaran::Draft, StatusPendaftaran::Dikirim, StatusPendaftaran::Verifikasi], true);
+    }
+
     public function isDraft(): bool
     {
         return $this->status === StatusPendaftaran::Draft;
@@ -97,6 +151,10 @@ class Pendaftaran extends Model
 
         if (! $this->mahasiswa->isLengkap()) {
             $kendala[] = 'Profil belum lengkap.';
+        }
+
+        if ($belumDiunggah = $this->dokumenWajibBelumDiunggah()) {
+            $kendala[] = 'Dokumen wajib belum diunggah: '.implode(', ', $belumDiunggah).'.';
         }
 
         return $kendala;

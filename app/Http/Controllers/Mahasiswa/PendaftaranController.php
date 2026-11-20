@@ -8,6 +8,7 @@ use App\Models\Pendaftaran;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PendaftaranController extends Controller
@@ -46,7 +47,7 @@ class PendaftaranController extends Controller
     {
         Gate::authorize('view', $pendaftaran);
 
-        $pendaftaran->load(['program.penyedia', 'program.jenjang', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan']);
+        $pendaftaran->load(['program.penyedia', 'program.jenjang', 'program.persyaratan', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan', 'dokumen']);
 
         return view('mahasiswa.pendaftaran.show', [
             'pendaftaran' => $pendaftaran,
@@ -61,7 +62,7 @@ class PendaftaranController extends Controller
     {
         Gate::authorize('update', $pendaftaran);
 
-        $pendaftaran->load(['program', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan']);
+        $pendaftaran->load(['program.persyaratan', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan', 'dokumen']);
 
         if ($kendala = $pendaftaran->kendalaPengiriman()) {
             return back()->with('error', 'Pendaftaran belum dapat dikirim: '.implode(' ', $kendala));
@@ -84,7 +85,11 @@ class PendaftaranController extends Controller
             return back()->with('error', 'Pendaftaran tidak dapat dibatalkan karena sudah diproses atau melewati deadline.');
         }
 
+        $fileDokumen = $pendaftaran->dokumen()->pluck('file_path')->filter()->all();
+
         $pendaftaran->delete();
+
+        Storage::delete($fileDokumen);
 
         return to_route('mahasiswa.pendaftaran.index')
             ->with('success', "Pendaftaran pada \"{$pendaftaran->program->judul}\" berhasil dibatalkan.");
