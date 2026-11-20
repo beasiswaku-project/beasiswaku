@@ -13,7 +13,7 @@
         UserRole::Admin => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'admin.dashboard'],
             ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => 'admin.program.index', 'active' => ['admin.program.*', 'admin.penyedia.*']],
-            ['label' => 'Seleksi', 'icon' => 'clipboard-check', 'route' => null],
+            ['label' => 'Seleksi', 'icon' => 'clipboard-check', 'route' => 'admin.pendaftaran.index', 'active' => 'admin.pendaftaran.*'],
             ['label' => 'Pengguna', 'icon' => 'users', 'route' => 'admin.profil.index', 'active' => 'admin.profil.*'],
             ['label' => 'Laporan', 'icon' => 'file-text', 'route' => null],
             ['label' => 'Pengaturan', 'icon' => 'settings', 'route' => 'admin.kategori.index', 'active' => ['admin.kategori.*', 'admin.jenjang.*', 'admin.wilayah.*']],
@@ -22,7 +22,7 @@
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],
             ['label' => 'Profil', 'icon' => 'user', 'route' => 'mahasiswa.profil.show', 'active' => ['mahasiswa.profil.*', 'mahasiswa.riwayat-pendidikan.*', 'mahasiswa.prestasi.*']],
             ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => 'beasiswa.index', 'active' => ['beasiswa.*', 'mahasiswa.pencocokan']],
-            ['label' => 'Pendaftaran', 'icon' => 'clipboard-check', 'route' => null],
+            ['label' => 'Pendaftaran', 'icon' => 'clipboard-check', 'route' => 'mahasiswa.pendaftaran.index', 'active' => 'mahasiswa.pendaftaran.*'],
         ],
     };
 @endphp
