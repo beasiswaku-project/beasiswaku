@@ -7,6 +7,7 @@
     $tabs = [
         ['label' => 'Data diri', 'route' => 'mahasiswa.profil.show', 'active' => 'mahasiswa.profil.*'],
         ['label' => 'Riwayat IPK', 'route' => 'mahasiswa.riwayat-pendidikan.index', 'active' => 'mahasiswa.riwayat-pendidikan.*'],
+        ['label' => 'Prestasi dan organisasi', 'route' => 'mahasiswa.prestasi.index', 'active' => 'mahasiswa.prestasi.*'],
     ];
 @endphp
 

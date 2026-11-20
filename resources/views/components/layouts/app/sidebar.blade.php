@@ -20,7 +20,7 @@
         ],
         UserRole::Mahasiswa => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],
-            ['label' => 'Profil', 'icon' => 'user', 'route' => 'mahasiswa.profil.show', 'active' => ['mahasiswa.profil.*', 'mahasiswa.riwayat-pendidikan.*']],
+            ['label' => 'Profil', 'icon' => 'user', 'route' => 'mahasiswa.profil.show', 'active' => ['mahasiswa.profil.*', 'mahasiswa.riwayat-pendidikan.*', 'mahasiswa.prestasi.*']],
             ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => null],
             ['label' => 'Pendaftaran', 'icon' => 'clipboard-check', 'route' => null],
         ],

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Mahasiswa;
+use App\Http\Controllers\PrestasiBuktiController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -29,8 +30,12 @@ Route::middleware(['auth', 'active'])->group(function () {
             Route::resource('riwayat-pendidikan', Mahasiswa\RiwayatPendidikanController::class)
                 ->only(['index', 'store', 'update', 'destroy'])
                 ->parameters(['riwayat-pendidikan' => 'riwayatPendidikan']);
+
+            Route::resource('prestasi', Mahasiswa\PrestasiController::class)->only(['index', 'store', 'update', 'destroy']);
         });
     });
+
+    Route::get('/prestasi/{prestasi}/bukti', PrestasiBuktiController::class)->name('prestasi.bukti');
 });
 
 require __DIR__.'/auth.php';

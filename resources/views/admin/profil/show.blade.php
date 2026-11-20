@@ -79,4 +79,9 @@
 
         <x-profil.kelengkapan :profil="$profil" class="self-start" />
     </div>
+
+    <section class="mt-6 overflow-hidden rounded-xl border border-gray-200 bg-white" aria-labelledby="prestasi-title">
+        <h2 id="prestasi-title" class="border-b border-gray-200 px-5 py-4 font-semibold">Prestasi dan organisasi</h2>
+        <x-prestasi.tabel :daftar-prestasi="$profil->prestasi" />
+    </section>
 </x-layouts.app>

@@ -85,6 +85,16 @@ class Mahasiswa extends Model
     }
 
     /**
+     * Achievements and organisation memberships.
+     *
+     * @return HasMany<Prestasi, $this>
+     */
+    public function prestasi(): HasMany
+    {
+        return $this->hasMany(Prestasi::class)->orderByDesc('id');
+    }
+
+    /**
      * The most recent GPA: the latest semester at the student's current level,
      * falling back to the latest semester at any level.
      */

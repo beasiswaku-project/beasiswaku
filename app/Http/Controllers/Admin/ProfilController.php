@@ -38,7 +38,7 @@ class ProfilController extends Controller
      */
     public function show(Mahasiswa $profil): View
     {
-        $profil->load(['user', 'wilayah', 'jenjang', 'riwayatPendidikan']);
+        $profil->load(['user', 'wilayah', 'jenjang', 'riwayatPendidikan', 'prestasi']);
 
         return view('admin.profil.show', ['profil' => $profil]);
     }
