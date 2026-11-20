@@ -45,6 +45,10 @@
                 <dd class="mt-1 font-medium">{{ $profil->jenjang->nama_jenjang }}</dd>
             </div>
             <div>
+                <dt class="text-sm text-gray-500">IPK terakhir</dt>
+                <dd class="mt-1 font-medium tabular-nums">{{ $profil->ipkTerakhir() === null ? '–' : number_format($profil->ipkTerakhir(), 2, ',', '.') }}</dd>
+            </div>
+            <div>
                 <dt class="text-sm text-gray-500">Wilayah asal</dt>
                 <dd class="mt-1 flex flex-wrap items-center gap-2 font-medium">
                     {{ $profil->wilayah->kabupaten }}, {{ $profil->wilayah->provinsi }}
@@ -75,4 +79,9 @@
 
         <x-profil.kelengkapan :profil="$profil" class="self-start" />
     </div>
+
+    <section class="mt-6 overflow-hidden rounded-xl border border-gray-200 bg-white" aria-labelledby="prestasi-title">
+        <h2 id="prestasi-title" class="border-b border-gray-200 px-5 py-4 font-semibold">Prestasi dan organisasi</h2>
+        <x-prestasi.tabel :daftar-prestasi="$profil->prestasi" />
+    </section>
 </x-layouts.app>

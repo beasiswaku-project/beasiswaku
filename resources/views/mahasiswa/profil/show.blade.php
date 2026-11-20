@@ -2,6 +2,8 @@
     <h1 class="text-3xl font-semibold tracking-tight">Profil saya</h1>
     <p class="mt-2 text-gray-500">Data ini dipakai untuk mencocokkan beasiswa dan menghitung skor kebutuhan ekonomi.</p>
 
+    <x-profil.tabs class="mt-8" />
+
     <x-flash class="mt-6" />
 
     <div class="mt-6 grid gap-6 lg:grid-cols-3">
