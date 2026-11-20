@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\StatusProgram;
 use App\Models\Jenjang;
 use App\Models\Kategori;
 use App\Models\KonfigurasiPenilaian;
@@ -32,7 +33,29 @@ class ProgramFactory extends Factory
             'kuota' => fake()->numberBetween(10, 200),
             'tgl_buka' => $tglBuka,
             'deadline' => fake()->dateTimeBetween($tglBuka, '+3 months'),
-            'status' => 'draft',
+            'status' => StatusProgram::Draft,
         ];
+    }
+
+    /**
+     * Indicate that the program is open for registration today.
+     */
+    public function dibuka(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => StatusProgram::Dibuka,
+            'tgl_buka' => today()->subWeek(),
+            'deadline' => today()->addMonth(),
+        ]);
+    }
+
+    /**
+     * Indicate that registration for the program has been closed.
+     */
+    public function ditutup(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => StatusProgram::Ditutup,
+        ]);
     }
 }

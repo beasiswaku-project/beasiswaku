@@ -107,6 +107,14 @@ class Mahasiswa extends Model
     }
 
     /**
+     * The latest semester recorded at the student's current level, if any.
+     */
+    public function semesterTerakhir(): ?int
+    {
+        return $this->riwayatPendidikan->firstWhere('jenjang_id', $this->jenjang_id)?->semester;
+    }
+
+    /**
      * Checklist behind the profile completeness indicator, keyed by item label.
      *
      * @return array<string, bool>

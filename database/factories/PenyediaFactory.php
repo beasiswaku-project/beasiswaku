@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\JenisPenyedia;
 use App\Models\Penyedia;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +20,7 @@ class PenyediaFactory extends Factory
     {
         return [
             'nama_penyedia' => fake()->company(),
-            'jenis' => fake()->randomElement(['pemerintah', 'swasta', 'kampus', 'yayasan']),
+            'jenis' => fake()->randomElement(JenisPenyedia::cases()),
             'kontak' => fake()->numerify('08##########'),
             'alamat' => fake()->address(),
         ];

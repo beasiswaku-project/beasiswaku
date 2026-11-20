@@ -12,7 +12,7 @@
     $menu = match ($user->role) {
         UserRole::Admin => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'admin.dashboard'],
-            ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => null],
+            ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => 'admin.program.index', 'active' => ['admin.program.*', 'admin.penyedia.*']],
             ['label' => 'Seleksi', 'icon' => 'clipboard-check', 'route' => null],
             ['label' => 'Pengguna', 'icon' => 'users', 'route' => 'admin.profil.index', 'active' => 'admin.profil.*'],
             ['label' => 'Laporan', 'icon' => 'file-text', 'route' => null],
@@ -21,7 +21,7 @@
         UserRole::Mahasiswa => [
             ['label' => 'Dashboard', 'icon' => 'layout-grid', 'route' => 'mahasiswa.dashboard'],
             ['label' => 'Profil', 'icon' => 'user', 'route' => 'mahasiswa.profil.show', 'active' => ['mahasiswa.profil.*', 'mahasiswa.riwayat-pendidikan.*', 'mahasiswa.prestasi.*']],
-            ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => null],
+            ['label' => 'Beasiswa', 'icon' => 'graduation-cap', 'route' => 'beasiswa.index', 'active' => ['beasiswa.*', 'mahasiswa.pencocokan']],
             ['label' => 'Pendaftaran', 'icon' => 'clipboard-check', 'route' => null],
         ],
     };

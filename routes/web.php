@@ -17,15 +17,24 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::resource('profil', Admin\ProfilController::class)->only(['index', 'show']);
         Route::patch('/profil/{profil}/nonaktif', [Admin\ProfilController::class, 'nonaktif'])->name('profil.nonaktif');
+
+        Route::resource('penyedia', Admin\PenyediaController::class)->except(['create', 'edit'])->parameters(['penyedia' => 'penyedia']);
+        Route::resource('program', Admin\ProgramController::class)->except(['create', 'edit']);
+        Route::patch('/program/{program}/status', [Admin\ProgramController::class, 'status'])->name('program.status');
+        Route::resource('program.persyaratan', Admin\PersyaratanController::class)->shallow()->only(['store', 'update', 'destroy']);
     });
 
     Route::middleware('role:mahasiswa')->group(function () {
         Route::get('/dashboard', Mahasiswa\DashboardController::class)->name('mahasiswa.dashboard');
 
+        Route::get('/beasiswa', [Mahasiswa\BeasiswaController::class, 'index'])->name('beasiswa.index');
+        Route::get('/beasiswa/{program}', [Mahasiswa\BeasiswaController::class, 'show'])->name('beasiswa.show');
+
         Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
             Route::get('/profil', [Mahasiswa\ProfilController::class, 'show'])->name('profil.show');
             Route::post('/profil', [Mahasiswa\ProfilController::class, 'store'])->name('profil.store');
             Route::put('/profil', [Mahasiswa\ProfilController::class, 'update'])->name('profil.update');
+            Route::get('/pencocokan', Mahasiswa\PencocokanController::class)->name('pencocokan');
 
             Route::resource('riwayat-pendidikan', Mahasiswa\RiwayatPendidikanController::class)
                 ->only(['index', 'store', 'update', 'destroy'])
