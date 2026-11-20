@@ -32,6 +32,24 @@
 
     <x-dokumen.unggah-mahasiswa :pendaftaran="$pendaftaran" class="mt-6" />
 
+    <section class="mt-6 flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between" aria-labelledby="esai-title">
+        <div>
+            <h2 id="esai-title" class="font-semibold">Esai motivasi</h2>
+            <p class="mt-1 text-sm text-gray-500">
+                @if ($pendaftaran->esai)
+                    {{ $pendaftaran->esai->status->label() }} · {{ $pendaftaran->esai->jumlahKata() }} kata
+                @else
+                    Belum ditulis. Esai wajib diisi sebelum pendaftaran dikirim.
+                @endif
+            </p>
+        </div>
+
+        <a href="{{ route('mahasiswa.pendaftaran.esai.index', $pendaftaran) }}" class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold transition hover:bg-gray-50">
+            {{ $pendaftaran->isDraft() ? ($pendaftaran->esai ? 'Ubah esai' : 'Tulis esai') : 'Lihat esai' }}
+            <x-icon name="arrow-right" class="size-4" />
+        </a>
+    </section>
+
     @if ($pendaftaran->isDraft())
         <section class="mt-6 rounded-xl border border-gray-200 bg-white p-6" aria-labelledby="kirim-title">
             <h2 id="kirim-title" class="font-semibold">Kirim pendaftaran</h2>

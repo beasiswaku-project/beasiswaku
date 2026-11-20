@@ -26,6 +26,7 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::resource('pendaftaran', Admin\PendaftaranController::class)->only(['index', 'show']);
         Route::get('/pendaftaran/{pendaftaran}/prestasi', [Admin\PendaftaranController::class, 'prestasi'])->name('pendaftaran.prestasi');
+        Route::get('/pendaftaran/{pendaftaran}/esai', [Admin\PendaftaranController::class, 'esai'])->name('pendaftaran.esai');
         Route::patch('/pendaftaran/{pendaftaran}/status', [Admin\PendaftaranController::class, 'status'])->name('pendaftaran.status');
         Route::patch('/dokumen/{dokumen}/verifikasi', [Admin\DokumenController::class, 'verifikasi'])->name('dokumen.verifikasi');
     });
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'active'])->group(function () {
             Route::resource('pendaftaran', Mahasiswa\PendaftaranController::class)->only(['index', 'store', 'show', 'destroy']);
             Route::post('/pendaftaran/{pendaftaran}/kirim', [Mahasiswa\PendaftaranController::class, 'kirim'])->name('pendaftaran.kirim');
             Route::resource('pendaftaran.dokumen', Mahasiswa\DokumenController::class)->shallow()->only(['store', 'update', 'destroy'])->parameters(['dokumen' => 'dokumen']);
+            Route::resource('pendaftaran.esai', Mahasiswa\EsaiController::class)->shallow()->only(['index', 'store', 'update', 'destroy'])->parameters(['esai' => 'esai']);
         });
     });
 

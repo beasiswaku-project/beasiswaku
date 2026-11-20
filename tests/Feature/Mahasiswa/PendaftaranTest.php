@@ -5,6 +5,7 @@ namespace Tests\Feature\Mahasiswa;
 use App\Enums\JenisPersyaratan;
 use App\Enums\StatusPendaftaran;
 use App\Models\Dokumen;
+use App\Models\Esai;
 use App\Models\Mahasiswa;
 use App\Models\Pendaftaran;
 use App\Models\Persyaratan;
@@ -38,12 +39,13 @@ class PendaftaranTest extends TestCase
     }
 
     /**
-     * A draft with the KIP-K proof the student's declared status requires.
+     * A draft with the KIP-K proof the student's declared status requires and an essay.
      */
     private function drafSiapKirim(): Pendaftaran
     {
         $pendaftaran = Pendaftaran::factory()->for($this->profil)->for($this->program)->create();
         Dokumen::factory()->for($pendaftaran)->create(['jenis_dokumen' => Dokumen::BUKTI_KIPK]);
+        Esai::factory()->for($pendaftaran)->create();
 
         return $pendaftaran;
     }

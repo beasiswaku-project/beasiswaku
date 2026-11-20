@@ -47,7 +47,7 @@ class PendaftaranController extends Controller
     {
         Gate::authorize('view', $pendaftaran);
 
-        $pendaftaran->load(['program.penyedia', 'program.jenjang', 'program.persyaratan', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan', 'dokumen']);
+        $pendaftaran->load(['program.penyedia', 'program.jenjang', 'program.persyaratan', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan', 'dokumen', 'esai']);
 
         return view('mahasiswa.pendaftaran.show', [
             'pendaftaran' => $pendaftaran,
@@ -62,7 +62,7 @@ class PendaftaranController extends Controller
     {
         Gate::authorize('update', $pendaftaran);
 
-        $pendaftaran->load(['program.persyaratan', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan', 'dokumen']);
+        $pendaftaran->load(['program.persyaratan', 'mahasiswa.wilayah', 'mahasiswa.riwayatPendidikan', 'dokumen', 'esai']);
 
         if ($kendala = $pendaftaran->kendalaPengiriman()) {
             return back()->with('error', 'Pendaftaran belum dapat dikirim: '.implode(' ', $kendala));

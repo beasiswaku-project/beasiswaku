@@ -69,6 +69,18 @@ class PendaftaranController extends Controller
     }
 
     /**
+     * Display the applicant's motivation essay, read when scoring the essay component.
+     */
+    public function esai(Pendaftaran $pendaftaran): View
+    {
+        abort_if($pendaftaran->isDraft(), 404);
+
+        $pendaftaran->load(['mahasiswa.user', 'program', 'esai']);
+
+        return view('admin.pendaftaran.esai', ['pendaftaran' => $pendaftaran]);
+    }
+
+    /**
      * Change the status of a submitted registration.
      */
     public function status(StatusPendaftaranRequest $request, Pendaftaran $pendaftaran): RedirectResponse

@@ -16,6 +16,7 @@
         <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('admin.profil.show', $pendaftaran->mahasiswa) }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold transition hover:bg-gray-50">Profil</a>
             <a href="{{ route('admin.pendaftaran.prestasi', $pendaftaran) }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold transition hover:bg-gray-50">Prestasi</a>
+            <a href="{{ route('admin.pendaftaran.esai', $pendaftaran) }}" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold transition hover:bg-gray-50">Esai</a>
         </div>
     </div>
 

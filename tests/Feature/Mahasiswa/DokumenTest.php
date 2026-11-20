@@ -5,6 +5,7 @@ namespace Tests\Feature\Mahasiswa;
 use App\Enums\StatusPendaftaran;
 use App\Enums\StatusVerifikasi;
 use App\Models\Dokumen;
+use App\Models\Esai;
 use App\Models\Mahasiswa;
 use App\Models\Pendaftaran;
 use App\Models\Persyaratan;
@@ -112,6 +113,7 @@ class DokumenTest extends TestCase
 
         Dokumen::factory()->for($this->pendaftaran)->create(['jenis_dokumen' => 'SKTM']);
         Dokumen::factory()->for($this->pendaftaran)->create(['jenis_dokumen' => Dokumen::BUKTI_KIPK]);
+        Esai::factory()->for($this->pendaftaran)->create();
 
         $this->actingAs($this->user)
             ->post(route('mahasiswa.pendaftaran.kirim', $this->pendaftaran))

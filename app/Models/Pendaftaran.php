@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEsai;
 use App\Enums\StatusPendaftaran;
 use Database\Factories\PendaftaranFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * A student's registration for a program. Every column is set by the system
@@ -99,6 +101,16 @@ class Pendaftaran extends Model
     }
 
     /**
+     * The motivation essay, if it has been written.
+     *
+     * @return HasOne<Esai, $this>
+     */
+    public function esai(): HasOne
+    {
+        return $this->hasOne(Esai::class);
+    }
+
+    /**
      * Mandatory documents that have not been uploaded yet.
      *
      * @return list<string>
@@ -157,12 +169,17 @@ class Pendaftaran extends Model
             $kendala[] = 'Dokumen wajib belum diunggah: '.implode(', ', $belumDiunggah).'.';
         }
 
+        if ($this->esai === null) {
+            $kendala[] = 'Esai motivasi belum ditulis.';
+        }
+
         return $kendala;
     }
 
     /**
      * Submit the draft: lock in a snapshot of the student's economic data and
-     * latest GPA so later profile changes do not affect selection (KNF-14).
+     * latest GPA so later profile changes do not affect selection (KNF-14),
+     * and lock the essay.
      */
     public function kirim(): void
     {
@@ -186,6 +203,8 @@ class Pendaftaran extends Model
         $this->status = StatusPendaftaran::Dikirim;
         $this->tgl_kirim = now();
         $this->save();
+
+        $this->esai?->forceFill(['status' => StatusEsai::Dikirim])->save();
     }
 
     /**
