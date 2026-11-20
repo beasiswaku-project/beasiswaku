@@ -17,6 +17,8 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         Route::resource('profil', Admin\ProfilController::class)->only(['index', 'show']);
         Route::patch('/profil/{profil}/nonaktif', [Admin\ProfilController::class, 'nonaktif'])->name('profil.nonaktif');
+
+        Route::resource('penyedia', Admin\PenyediaController::class)->except(['create', 'edit'])->parameters(['penyedia' => 'penyedia']);
     });
 
     Route::middleware('role:mahasiswa')->group(function () {
